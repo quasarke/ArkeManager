@@ -337,7 +337,7 @@ export class DiagramEditorComponent implements OnInit {
     });
     return panels;
   }
-  makePort(top: boolean, align = "Vertical") {
+  makePort(top: boolean, align = "Vertical", spot: go.Spot = go.Spot.Bottom) {
     const port: go.Shape = this.$(go.Shape, "Circle", {
       fill: "gray",
       stroke: null,
@@ -368,7 +368,7 @@ export class DiagramEditorComponent implements OnInit {
       panel.add(port);
       panel.add(lab);
     } else {
-      port.fromSpot = go.Spot.Bottom;
+      port.fromSpot = spot;
       port.toMaxLinks = 1;
       port.fromMaxLinks = 1;
       port.fromLinkable = true;
@@ -391,7 +391,7 @@ export class DiagramEditorComponent implements OnInit {
           alignment: go.Spot.Right,
           alignmentFocus: new go.Spot(0.5, 1, 0, 8),
         },{
-        itemTemplate: this.makePort(false, "Horizontal")
+        itemTemplate: this.makePort(false, "Horizontal", go.Spot.Right)
         }
       );
     return panel;

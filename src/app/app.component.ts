@@ -176,6 +176,30 @@ export class AppComponent implements OnInit {
     }
   }
 
+  addInputPort(name) {
+    if(this.node) {
+    // this.data.outArray.push({ portId: "test"});
+    this.model.startTransaction("addPort");
+      // get the Array of port data to be modified
+      if (this.node.data["properties"]["Options"]) {
+        // create a new port data object
+        console.log(this.node.data["properties"]["Options"])
+        const newportdata = {
+          portId: name
+        };
+        // and add it to the Array of port data
+
+        this.model.insertArrayItem(this.node.data["properties"]["Options"], -1, newportdata);
+      }
+    this.model.commitTransaction("addPort");
+    }
+  }
+
+  removeInputPort(idx) {
+    console.log(idx);
+    this.model.removeArrayItem(this.node.data["properties"]["Options"], idx);
+  }
+
   removePort(idx) {
     console.log(idx);
     this.model.removeArrayItem(this.node.data["outArray"], idx);
