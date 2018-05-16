@@ -1,0 +1,61 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
+</app-diagram-editor>
+<div class="inspector-container">
+
+  <div class="inspectorheaderDiv">Inspector</div>
+
+  <!-- <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">
+          <div><label>Key: </label>{{node.key}}</div>
+          <div><label>Text: </label><input [(ngModel)]="data.text" name="text"></div>
+          <div><label>Color: </label><input [(ngModel)]="data.color" name="color"></div>
+          <div><label>Location: </label>{{node.location.x.toFixed(2)}}, {{node.location.y.toFixed(2)}}</div>
+          <div><label># Links: </label>{{node.linksConnected.count}}</div>
+          <button type="submit">Commit Details</button>
+          <button (click)="onCancelChanges()">Cancel Changes</button>
+        </form> -->
+  <div class="inspectorDiv">
+  <mat-card *ngIf="node">
+      <mat-card-header>
+          <mat-card-title>Properties</mat-card-title>
+
+            </mat-card-header>
+            <mat-card-content>
+    <form [formGroup]="formGroup">
+
+      <dynamic-material-form *ngIf="node" [group]="formGroup" [model]="formModel"></dynamic-material-form>
+
+    </form>
+    </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="node && data.properties.Options">
+        <mat-card-header>
+      <mat-card-title>Inputs</mat-card-title>
+
+        </mat-card-header>
+        <mat-card-content>
+
+    <form class="example-form">
+      <mat-form-field >
+        <input #digit matInput placeholder="Port Digit" required>
+      </mat-form-field>
+      <button (click)="addPort(digit.value)" mat-mini-fab>
+          <mat-icon>add</mat-icon>
+      </button>
+    </form>
+    <ul>
+      <li *ngFor="let port of data.outArray; index as i" >{{port.portId}} <button (click)="removePort(i)">-</button></li>
+    </ul>
+  </mat-card-content>
+    </mat-card>
+
+
+    <button (click)="addPort('test')">port test</button>
+    <button (click)="removePort('test')">port remove test</button>
+    <button (click)="onCommitDetails()">commit</button>
+
+  </div>
+
+
+
+</div>

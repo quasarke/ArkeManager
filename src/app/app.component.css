@@ -1,0 +1,49 @@
+app-diagram-editor {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  width: 80vw;
+  height:100%
+}
+
+.inspector-container {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  width: 19.5vw;
+  height:100%;
+  background-color:#ecf0f8;
+}
+.inspectorDiv {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  width: 100%;
+  height:95%;
+}
+
+.inspectorheaderDiv {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height:5%;
+  box-shadow: inset -1px -1px 1px #434c63;
+  background-color: #545D74;
+  background-image: -ms-linear-gradient(top, #6B748F 0%, #545D74 100%);
+  background-image: -moz-linear-gradient(top, #6B748F 0%, #545D74 100%);
+  background-image: -o-linear-gradient(top, #6B748F 0%, #545D74 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #6B748F), color-stop(100, #545D74));
+  background-image: -webkit-linear-gradient(top, #6B748F 0%, #545D74 100%);
+  background-image: linear-gradient(to bottom, #6B748F 0%, #545D74 100%);
+  color: #fff;
+  font-size: 18px;
+  line-height: 60px;
+  text-align: left;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 0 0 0 30px;
+}
