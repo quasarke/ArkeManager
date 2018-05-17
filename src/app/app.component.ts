@@ -1,3 +1,4 @@
+
 import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
 import {
   DynamicFormControlModel,
@@ -54,8 +55,8 @@ export class AppComponent implements OnInit {
     this.model.linkToPortIdProperty = "toPort";
     this.model.makeUniqueKeyFunction = this.keyGenerator;
     this.model.copyNodeDataFunction = function(data, model) {
-      let newdata: any = Object.assign({}, data);
-      var i = model.nodeDataArray.length * 2 + 1;
+      let newdata: any = JSON.parse(JSON.stringify(data));
+      let i = model.nodeDataArray.length * 2 + 1;
       while (model.findNodeDataForKey(i) !== null) i += 2;
       newdata.key = i;
       console.log(newdata);
