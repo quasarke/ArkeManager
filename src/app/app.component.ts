@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
   model = new go.GraphLinksModel(
     [
       {
-        key: "1",
         text: "DeviceConnected",
         color: "lightgreen",
         category: "DeviceConnected",
@@ -36,7 +35,6 @@ export class AppComponent implements OnInit {
         outArray: [{portId: "nextStep"}]
       },
       {
-        key: "2",
         text: "DisconnectDevice",
         color: "salmon",
         category: "DisconnectDevice",
@@ -53,13 +51,8 @@ export class AppComponent implements OnInit {
   constructor(private formService: DynamicFormService) {
     this.model.linkFromPortIdProperty = "fromPort";
     this.model.linkToPortIdProperty = "toPort";
-    this.model.makeUniqueKeyFunction = this.keyGenerator;
     this.model.copyNodeDataFunction = function(data, model) {
       let newdata: any = JSON.parse(JSON.stringify(data));
-      let i = model.nodeDataArray.length * 2 + 1;
-      while (model.findNodeDataForKey(i) !== null) i += 2;
-      newdata.key = i;
-      console.log(newdata);
       return newdata;
 
     }
@@ -69,13 +62,6 @@ export class AppComponent implements OnInit {
     this.formGroup = this.formService.createFormGroup(this.formModel);
   }
 
-  keyGenerator(model, data) {
-    // odd numbered keys
-    var i = model.nodeDataArray.length * 2 + 1;
-    while (model.findNodeDataForKey(i) !== null) i += 2;
-    data.key = i;
-    return i;
-  }
   showDetails(node: go.Node | null) {
     this.node = node;
     if (node) {

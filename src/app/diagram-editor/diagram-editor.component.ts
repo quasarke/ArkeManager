@@ -321,7 +321,6 @@ export class DiagramEditorComponent implements OnInit {
     let inArray: Array<Object> = inports.map(x => ({ portId: x }));
     let outArray: Array<Object> = outports.map(x => ({ portId: x }));
     this.paletteTest.push({
-      key: "",
       text: typename,
       color: background,
       category: typename,
