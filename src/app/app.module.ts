@@ -13,6 +13,7 @@ import {MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatI
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { DiagramService } from './core/services/diagram.service';
 import { appReducer, metaReducers } from "./core/store/app.store";
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { appReducer, metaReducers } from "./core/store/app.store";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TextMaskModule
   ],
   providers: [DiagramService],
   bootstrap: [AppComponent]

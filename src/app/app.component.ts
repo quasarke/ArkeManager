@@ -18,6 +18,7 @@ import { DiagramEditorComponent } from "./diagram-editor/diagram-editor.componen
 })
 export class AppComponent implements OnInit {
 
+  digitMask = [ /[1-9, #, *]/];
   formModel: DynamicFormControlModel[] = [];
   formGroup: FormGroup;
 
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit {
   model = new go.GraphLinksModel(
     [
       {
+        key: "1",
         text: "DeviceConnected",
         color: "lightgreen",
         category: "DeviceConnected",
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
         outArray: [{portId: "nextStep"}]
       },
       {
+        key: "2",
         text: "DisconnectDevice",
         color: "salmon",
         category: "DisconnectDevice",
@@ -49,10 +52,28 @@ export class AppComponent implements OnInit {
   constructor(private formService: DynamicFormService) {
     this.model.linkFromPortIdProperty = "fromPort";
     this.model.linkToPortIdProperty = "toPort";
+    this.model.makeUniqueKeyFunction = this.keyGenerator;
+    this.model.copyNodeDataFunction = function(data, model) {
+      let newdata: any = Object.assign({}, data);
+      var i = model.nodeDataArray.length * 2 + 1;
+      while (model.findNodeDataForKey(i) !== null) i += 2;
+      newdata.key = i;
+      console.log(newdata);
+      return newdata;
+
+    }
   }
 
   ngOnInit(): void {
     this.formGroup = this.formService.createFormGroup(this.formModel);
+  }
+
+  keyGenerator(model, data) {
+    // odd numbered keys
+    var i = model.nodeDataArray.length * 2 + 1;
+    while (model.findNodeDataForKey(i) !== null) i += 2;
+    data.key = i;
+    return i;
   }
   showDetails(node: go.Node | null) {
     this.node = node;
@@ -140,10 +161,12 @@ export class AppComponent implements OnInit {
     if (this.node) {
 
       // copy the edited properties back into the node's model data,
-      // all within a transaction
+      // using object assign to copy none array type elements and omit changes to array elements
+      Object.assign(this.data.properties, this.formGroup.value);
       this.model.startTransaction();
       this.model.setDataProperty(this.node.data, "properties", this.data.properties);
       this.model.commitTransaction("modified properties");
+      console.log(this.model.toJson());
     }
   }
 

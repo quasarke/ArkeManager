@@ -37,7 +37,7 @@
 
     <form class="example-form">
       <mat-form-field >
-        <input #digit matInput placeholder="Port Digit" required>
+        <input #digit matInput placeholder="Port Digit" [textMask]="{mask: digitMask}" required>
       </mat-form-field>
       <button (click)="addInputPort(digit.value)" mat-mini-fab>
           <mat-icon>add</mat-icon>
@@ -49,9 +49,6 @@
   </mat-card-content>
     </mat-card>
 
-
-    <button (click)="addPort('test')">port test</button>
-    <button (click)="removePort('test')">port remove test</button>
     <button (click)="onCommitDetails()">commit</button>
 
   </div>
