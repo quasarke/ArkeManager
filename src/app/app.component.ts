@@ -74,6 +74,7 @@ export class AppComponent implements OnInit {
     } else {
       this.data = null;
     }
+    console.log(this.model.toJson());
   }
 
   buildFormModel() {
@@ -150,9 +151,9 @@ export class AppComponent implements OnInit {
       // copy the edited properties back into the node's model data,
       // using object assign to copy none array type elements and omit changes to array elements
       Object.assign(this.data.properties, this.formGroup.value);
-      this.model.startTransaction();
+      this.model.startTransaction("modify properties");
       this.model.setDataProperty(this.node.data, "properties", this.data.properties);
-      this.model.commitTransaction("modified properties");
+      this.model.commitTransaction("modify properties");
       console.log(this.model.toJson());
     }
   }
@@ -167,25 +168,6 @@ export class AppComponent implements OnInit {
     this.showDetails(this.node);
   }
   // Add a port to the specified side of the selected nodes.
-  addPort(name) {
-    if(this.node) {
-    // this.data.outArray.push({ portId: "test"});
-    this.model.startTransaction("addPort");
-      // get the Array of port data to be modified
-      if (this.node.data["outArray"]) {
-        // create a new port data object
-        console.log(this.node.data["outArray"])
-        const newportdata = {
-          portId: name,
-        };
-        // and add it to the Array of port data
-
-        this.model.insertArrayItem(this.node.data["outArray"], -1, newportdata);
-      }
-    this.model.commitTransaction("addPort");
-    }
-  }
-
   addInputPort(name) {
     if(this.node) {
     // this.data.outArray.push({ portId: "test"});
@@ -208,10 +190,5 @@ export class AppComponent implements OnInit {
   removeInputPort(idx) {
     console.log(idx);
     this.model.removeArrayItem(this.node.data["properties"]["Options"], idx);
-  }
-
-  removePort(idx) {
-    console.log(idx);
-    this.model.removeArrayItem(this.node.data["outArray"], idx);
   }
 }

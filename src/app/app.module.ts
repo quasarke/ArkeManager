@@ -9,7 +9,7 @@ import { DynamicFormsCoreModule } from "@ng-dynamic-forms/core";
 import { DynamicFormsMaterialUIModule } from "@ng-dynamic-forms/ui-material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import {MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule } from "@angular/material";
+import {MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatListModule, } from "@angular/material";
 import { CountdownComponent } from './components/countdown/countdown.component';
 import { DiagramService } from './core/services/diagram.service';
 import { appReducer, metaReducers } from "./core/store/app.store";
@@ -33,7 +33,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    TextMaskModule
+    TextMaskModule,
+    MatListModule
   ],
   providers: [DiagramService],
   bootstrap: [AppComponent]

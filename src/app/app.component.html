@@ -14,42 +14,48 @@
           <button type="submit">Commit Details</button>
           <button (click)="onCancelChanges()">Cancel Changes</button>
         </form> -->
-  <div class="inspectorDiv">
-  <mat-card *ngIf="node">
+  <div *ngIf="node" class="inspectorDiv">
+    <mat-card>
       <mat-card-header>
-          <mat-card-title>Properties</mat-card-title>
+        <mat-card-title>Properties</mat-card-title>
 
-            </mat-card-header>
-            <mat-card-content>
-    <form [formGroup]="formGroup">
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="formGroup">
 
-      <dynamic-material-form *ngIf="node" [group]="formGroup" [model]="formModel"></dynamic-material-form>
-
-    </form>
-    </mat-card-content>
+          <dynamic-material-form *ngIf="node" [group]="formGroup" [model]="formModel"></dynamic-material-form>
+          <button (click)="onCommitDetails()" mat-button>Save</button><button (click)="onCancelChanges()" mat-button>Cancel</button>
+        </form>
+      </mat-card-content>
     </mat-card>
+
     <mat-card *ngIf="node && data.properties.Options">
-        <mat-card-header>
-      <mat-card-title>Inputs</mat-card-title>
 
-        </mat-card-header>
-        <mat-card-content>
+      <mat-card-header>
+        <mat-card-title>Inputs</mat-card-title>
+      </mat-card-header>
 
-    <form class="example-form">
-      <mat-form-field >
-        <input #digit matInput placeholder="Port Digit" [textMask]="{mask: digitMask}" required>
-      </mat-form-field>
-      <button (click)="addInputPort(digit.value)" mat-mini-fab>
-          <mat-icon>add</mat-icon>
-      </button>
-    </form>
-    <ul>
-      <li *ngFor="let port of data.properties.Options; index as i" >{{port.portId}} <button (click)="removeInputPort(i)">-</button></li>
-    </ul>
-  </mat-card-content>
+      <mat-card-content>
+        <form class="example-form">
+          <mat-form-field>
+            <input #digit matInput placeholder="Port Digit" [textMask]="{mask: digitMask}" required>
+          </mat-form-field>
+          <button (click)="addInputPort(digit.value)" mat-button>
+            <mat-icon>add</mat-icon>
+          </button>
+        </form>
+        <mat-list>
+          <mat-list-item *ngFor="let port of data.properties.Options; index as i">{{port.portId}}
+            <button (click)="removeInputPort(i)" mat-button>
+              <mat-icon>clear</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+
     </mat-card>
 
-    <button (click)="onCommitDetails()">commit</button>
+
 
   </div>
 

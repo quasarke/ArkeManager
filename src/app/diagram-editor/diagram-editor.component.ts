@@ -191,7 +191,9 @@ export class DiagramEditorComponent implements OnInit {
 
     console.log(this.palette.model.nodeDataArray);
   }
-
+  textStyle(size = 9, color = "black") {
+    return { font: size + "pt  Roboto, Arial, sans-serif", stroke: color };
+  }
   ngOnInit() {
     this.diagram.div = this.diagramRef.nativeElement;
     this.palette.div = this.paletteRef.nativeElement;
@@ -208,7 +210,7 @@ export class DiagramEditorComponent implements OnInit {
         new go.Binding("fill", "color")
       ),
       this.$(
-        go.TextBlock,
+        go.TextBlock,  this.textStyle(),
         { margin: 8, editable: false },
         new go.Binding("text").makeTwoWay()
       ),
@@ -238,7 +240,7 @@ export class DiagramEditorComponent implements OnInit {
         new go.Binding("fill", "color")
       ),
       this.$(
-        go.TextBlock,
+        go.TextBlock, this.textStyle(),
         { margin: 8, editable: false },
         new go.Binding("text").makeTwoWay()
       ),
@@ -276,7 +278,7 @@ export class DiagramEditorComponent implements OnInit {
         new go.Binding("fill", "color")
       ),
       this.$(
-        go.TextBlock,
+        go.TextBlock,  this.textStyle(),
         { margin: 8, editable: false },
         new go.Binding("text").makeTwoWay()
       ),
@@ -309,7 +311,7 @@ export class DiagramEditorComponent implements OnInit {
           go.Adornment,
           "Auto",
           this.$(go.Shape, { fill: "#FFFFCC" }),
-          this.$(go.TextBlock, { margin: 4 }, description)
+          this.$(go.TextBlock, this.textStyle(), { margin: 4 }, description)
         )
         // end of Adornment
       }
@@ -350,7 +352,7 @@ export class DiagramEditorComponent implements OnInit {
 
     const lab = this.$(
       go.TextBlock,
-      { font: "7pt sans-serif" },
+       this.textStyle(7),
       new go.Binding("text", "portId")
     );
 
