@@ -1,3 +1,4 @@
+import {DomSanitizer} from '@angular/platform-browser';
 
 import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
 import {
@@ -48,7 +49,7 @@ export class AppComponent implements OnInit {
   data: any;
   node: go.Node;
 
-  constructor(private formService: DynamicFormService) {
+  constructor(private formService: DynamicFormService, private sanitizer: DomSanitizer) {
     this.model.linkFromPortIdProperty = "fromPort";
     this.model.linkToPortIdProperty = "toPort";
     this.model.copyNodeDataFunction = function(data, model) {
@@ -166,6 +167,7 @@ export class AppComponent implements OnInit {
   onModelChanged(c: go.ChangedEvent) {
     // who knows what might have changed in the selected node and data?
     this.showDetails(this.node);
+    this.generateDownloadJsonUri();
   }
   // Add a port to the specified side of the selected nodes.
   addInputPort(name) {
@@ -191,4 +193,12 @@ export class AppComponent implements OnInit {
     console.log(idx);
     this.model.removeArrayItem(this.node.data["properties"]["Options"], idx);
   }
+
+  generateDownloadJsonUri() {
+    let theJSON = this.model.toJson();
+    let uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
+    this.diagramEditor.downloadJsonHref = uri;
+  }
+
+
 }

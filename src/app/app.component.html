@@ -1,19 +1,9 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <app-diagram-editor [model]="model" (nodeSelected)="showDetails($event)" (modelChanged)="onModelChanged($event)">
 </app-diagram-editor>
 <div class="inspector-container">
 
   <div class="inspectorheaderDiv">Inspector</div>
 
-  <!-- <form *ngIf="node" #form="ngForm" (ngSubmit)="onCommitDetails()">
-          <div><label>Key: </label>{{node.key}}</div>
-          <div><label>Text: </label><input [(ngModel)]="data.text" name="text"></div>
-          <div><label>Color: </label><input [(ngModel)]="data.color" name="color"></div>
-          <div><label>Location: </label>{{node.location.x.toFixed(2)}}, {{node.location.y.toFixed(2)}}</div>
-          <div><label># Links: </label>{{node.linksConnected.count}}</div>
-          <button type="submit">Commit Details</button>
-          <button (click)="onCancelChanges()">Cancel Changes</button>
-        </form> -->
   <div *ngIf="node" class="inspectorDiv">
     <mat-card>
       <mat-card-header>
@@ -24,7 +14,8 @@
         <form [formGroup]="formGroup">
 
           <dynamic-material-form *ngIf="node" [group]="formGroup" [model]="formModel"></dynamic-material-form>
-          <button (click)="onCommitDetails()" mat-button>Save</button><button (click)="onCancelChanges()" mat-button>Cancel</button>
+          <button (click)="onCommitDetails()" mat-button>Save</button>
+          <button (click)="onCancelChanges()" mat-button>Cancel</button>
         </form>
       </mat-card-content>
     </mat-card>

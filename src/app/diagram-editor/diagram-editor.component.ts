@@ -1,3 +1,4 @@
+import {DomSanitizer} from '@angular/platform-browser';
 import {
   Component,
   OnInit,
@@ -38,6 +39,8 @@ export class DiagramEditorComponent implements OnInit {
   @Output() modelChanged = new EventEmitter<go.ChangedEvent>();
 
   paletteTest = [];
+
+  downloadJsonHref;
 
   constructor() {
     this.diagram = new go.Diagram();
@@ -191,12 +194,16 @@ export class DiagramEditorComponent implements OnInit {
 
     console.log(this.palette.model.nodeDataArray);
   }
-  textStyle(size = 9, color = "black") {
-    return { font: size + "pt  Roboto, Arial, sans-serif", stroke: color };
-  }
+
+
   ngOnInit() {
     this.diagram.div = this.diagramRef.nativeElement;
     this.palette.div = this.paletteRef.nativeElement;
+  }
+
+
+  textStyle(size = 9, color = "black") {
+    return { font: size + "pt  Roboto, Arial, sans-serif", stroke: color };
   }
   makeStartandEnd() {
     // start DeviceConnected
