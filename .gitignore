@@ -40,3 +40,6 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode/launch.json
+
+#compodoc
+documentation/*
