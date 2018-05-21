@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
       return newdata;
 
     }
+
   }
 
   ngOnInit(): void {
@@ -75,7 +76,7 @@ export class AppComponent implements OnInit {
     } else {
       this.data = null;
     }
-    console.log(this.model.toJson());
+    console.log(this.model.nodeDataArray.filter( a => a["properties"]["Direction"] === "INCOMING" ).map( a => a["key"] + "-" + a["category"]));
   }
 
   buildFormModel() {
@@ -155,7 +156,6 @@ export class AppComponent implements OnInit {
       this.model.startTransaction("modify properties");
       this.model.setDataProperty(this.node.data, "properties", this.data.properties);
       this.model.commitTransaction("modify properties");
-      console.log(this.model.toJson());
     }
   }
 
@@ -169,6 +169,10 @@ export class AppComponent implements OnInit {
     this.showDetails(this.node);
     this.generateDownloadJsonUri();
   }
+
+  get triggerSteps() {
+   return [];
+  }
   // Add a port to the specified side of the selected nodes.
   addInputPort(name) {
     if(this.node) {
@@ -177,7 +181,6 @@ export class AppComponent implements OnInit {
       // get the Array of port data to be modified
       if (this.node.data["properties"]["Options"]) {
         // create a new port data object
-        console.log(this.node.data["properties"]["Options"])
         const newportdata = {
           portId: name
         };
@@ -189,9 +192,30 @@ export class AppComponent implements OnInit {
     }
   }
 
+  addTriggerPort(name) {
+    if(this.node) {
+    // this.data.outArray.push({ portId: "test"});
+    this.model.startTransaction("addTrigger");
+      // get the Array of port data to be modified
+      if (this.node.data["properties"]["Triggers"]) {
+        // create a new port data object
+        const newportdata = {
+          portId: name
+        };
+        // and add it to the Array of port data
+
+        this.model.insertArrayItem(this.node.data["properties"]["Triggers"], -1, newportdata);
+      }
+    this.model.commitTransaction("addTrigger");
+    }
+  }
+
   removeInputPort(idx) {
-    console.log(idx);
     this.model.removeArrayItem(this.node.data["properties"]["Options"], idx);
+  }
+
+  removeTriggerPort(idx) {
+    this.model.removeArrayItem(this.node.data["properties"]["Triggers"], idx);
   }
 
   generateDownloadJsonUri() {

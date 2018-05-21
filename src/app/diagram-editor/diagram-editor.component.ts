@@ -10,6 +10,8 @@ import {
 } from "@angular/core";
 import * as go from "gojs";
 import { inject } from '@angular/core/testing';
+import { Step } from '../models/step';
+import { mockSTeps } from '../mock-data/mocksteps';
 
 @Component({
   selector: "app-diagram-editor",
@@ -62,115 +64,117 @@ export class DiagramEditorComponent implements OnInit {
     );
 
     this.makeStartandEnd();
+    for ( let step of mockSTeps) {
+      this.makeTemplate(step);
+    }
+    // this.makeTemplate(
+    //   "ArkeInit",
 
-    this.makeTemplate(
-      "ArkeInit",
-      "lightblue",
-      ["IN"],
-      ["FailStep", "NextStep"],
-      { DeviceConfigEndpoint: "", Direction: "" },
-      "Initialize and Load Settings for device"
-    );
+    //   ["IN"],
+    //   ["FailStep", "NextStep"],
+    //   { DeviceConfigEndpoint: "", Direction: "" },
+    //   "Initialize and Load Settings for device"
+    // );
 
-    this.makeTemplate(
-      "BridgeCall",
-      "lightblue",
-      ["IN"],
-      ["NextStep"],
-      { DeviceConfigEndpoint: "", Direction: "BOTH" },
-      "Bridges 2 lines together in a conversation"
-    );
+    // this.makeTemplate(
+    //   "BridgeCall",
 
-    this.makeTemplate(
-      "StartRecordingLine",
-      "lightblue",
-      ["IN"],
-      ["NextStep"],
-      { ItemsToRecord: "", Direction: "" },
-      "Starts the recording on a lines"
-    );
+    //   ["IN"],
+    //   ["NextStep"],
+    //   { DeviceConfigEndpoint: "", Direction: "BOTH" },
+    //   "Bridges 2 lines together in a conversation"
+    // );
 
-    this.makeTemplate(
-      "PlayPrompt",
-      "lightblue",
-      ["IN"],
-      ["NextStep"],
-      { IsInterruptible: false, Direction: "", Prompts: "" },
-      "Plays a prompt or series of prompts to a line"
-    );
+    // this.makeTemplate(
+    //   "StartRecordingLine",
 
-    this.makeTemplate(
-      "GetInput",
-      "lightblue",
-      ["IN"],
-      [
-        "NextStep",
-        "NoAction",
-        "Invalid"
-      ],
-      {
-        MaxDigitTimeoutInSeconds: 1,
-        Direction: "",
-        NumberOfDigitsToWaitForNextStep: 1,
-        TerminationDigit: "",
-        SetValueAsDestination: "",
-        Options: [{ portId: "1" }]
-      },
-      "Gets input from the phone through DTMF"
-    );
+    //   ["IN"],
+    //   ["NextStep"],
+    //   { ItemsToRecord: "", Direction: "" },
+    //   "Starts the recording on a lines"
+    // );
 
-    this.makeTemplate(
-      "ValidateBillToNumber",
-      "lightblue",
-      ["IN"],
-      ["NextStep", "Invalid"],
-      { Direction: "" },
-      "Validates the dialed number for billing purposes"
-    );
+    // this.makeTemplate(
+    //   "PlayPrompt",
 
-    this.makeTemplate(
-      "CallOutbound",
-      "lightblue",
-      ["IN"],
-      [
-        "NextStep",
-        "SkipCallerPresentation",
-        "NoAnswer",
-        "Error"
-      ],
-      { Direction: "" },
-      "Dials out of the system to a called party"
-    );
+    //   ["IN"],
+    //   ["NextStep"],
+    //   { IsInterruptible: false, Direction: "", Prompts: "" },
+    //   "Plays a prompt or series of prompts to a line"
+    // );
 
-    this.makeTemplate(
-      "ParallelStart",
-      "lightblue",
-      ["IN"],
-      [
-        "IncomingNextStep",
-        "OutgoingNextStep"
-      ],
-      { Direction: "" },
-      "Joins two lines together to sync step processing"
-    );
+    // this.makeTemplate(
+    //   "GetInput",
+
+    //   ["IN"],
+    //   [
+    //     "NextStep",
+    //     "NoAction",
+    //     "Invalid"
+    //   ],
+    //   {
+    //     MaxDigitTimeoutInSeconds: 1,
+    //     Direction: "",
+    //     NumberOfDigitsToWaitForNextStep: 1,
+    //     TerminationDigit: "",
+    //     SetValueAsDestination: "",
+    //     Options: [{ portId: "1" }]
+    //   },
+    //   "Gets input from the phone through DTMF"
+    // );
+
+    // this.makeTemplate(
+    //   "ValidateBillToNumber",
+
+    //   ["IN"],
+    //   ["NextStep", "Invalid"],
+    //   { Direction: "" },
+    //   "Validates the dialed number for billing purposes"
+    // );
+
+    // this.makeTemplate(
+    //   "CallOutbound",
+
+    //   ["IN"],
+    //   [
+    //     "NextStep",
+    //     "SkipCallerPresentation",
+    //     "NoAnswer",
+    //     "Error"
+    //   ],
+    //   { Direction: "" },
+    //   "Dials out of the system to a called party"
+    // );
+
+    // this.makeTemplate(
+    //   "ParallelStart",
+
+    //   ["IN"],
+    //   [
+    //     "IncomingNextStep",
+    //     "OutgoingNextStep"
+    //   ],
+    //   { Direction: "" },
+    //   "Joins two lines together to sync step processing"
+    // );
 
 
-    this.makeTemplate(
-      "OnHold",
-      "lightblue",
-      ["IN"],
-      [
-        "IncomingNextStep",
-        "OutgoingNextStep"
-      ],
-      {
-        WaitPrompt: "",
-        HoldMusic: "",
-        PromptChanges: [{ stepId: "", prompt: "" }],
-        Triggers: [{ stepId: "", step: "" }]
-      },
-      "Places a line on hold for processing steps on another line"
-    );
+    // this.makeTemplate(
+    //   "OnHold",
+
+    //   ["IN"],
+    //   [
+    //     "IncomingNextStep",
+    //     "OutgoingNextStep"
+    //   ],
+    //   {
+    //     WaitPrompt: "",
+    //     HoldMusic: "",
+    //     PromptChanges: [{ stepId: "", prompt: "" }],
+    //     Triggers: [{ stepId: "", step: "" }]
+    //   },
+    //   "Places a line on hold for processing steps on another line"
+    // );
 
     this.diagram.linkTemplate = this.$(
       go.Link,
@@ -192,8 +196,6 @@ export class DiagramEditorComponent implements OnInit {
 
     // initialize contents of Palette
     this.palette.model.nodeDataArray = this.paletteTest;
-
-    console.log(this.palette.model.nodeDataArray);
   }
 
 
@@ -268,14 +270,7 @@ export class DiagramEditorComponent implements OnInit {
     this.diagram.nodeTemplateMap.add("DisconnectDevice", DisconnectDevice);
   }
 
-  makeTemplate(
-    typename,
-    background,
-    inports,
-    outports,
-    properties,
-    description?
-  ) {
+  makeTemplate( step: Step ) {
     const node: go.Node = this.$(
       go.Node,
       "Auto",
@@ -288,7 +283,12 @@ export class DiagramEditorComponent implements OnInit {
       this.$(
         go.TextBlock,  this.textStyle(),
         { margin: 8, editable: false },
-        new go.Binding("text").makeTwoWay()
+        new go.Binding("text")
+      ),
+      this.$(
+        go.TextBlock,  this.textStyle(),
+        { margin: 5, editable: false, alignment: go.Spot.TopRight },
+        new go.Binding("text", "key")
       ),
 
       this.$(
@@ -319,23 +319,27 @@ export class DiagramEditorComponent implements OnInit {
           go.Adornment,
           "Auto",
           this.$(go.Shape, { fill: "#FFFFCC" }),
-          this.$(go.TextBlock, this.textStyle(), { margin: 4 }, description)
+          this.$(go.TextBlock, this.textStyle(), { margin: 4 }, new go.Binding("text", "description"))
         )
         // end of Adornment
       }
     );
-    if (properties.Options) {
+    if (step.properties.hasOwnProperty("Options")) {
       node.add(this.makeInputPort())
     }
-    this.diagram.nodeTemplateMap.add(typename, node);
-    let inArray: Array<Object> = inports.map(x => ({ portId: x }));
-    let outArray: Array<Object> = outports.map(x => ({ portId: x }));
+
+    if (step.properties.hasOwnProperty("Triggers")) {
+      node.add(this.makeTriggerPort())
+    }
+    this.diagram.nodeTemplateMap.add(step.name, node);
+    let inArray: Array<Object> = step.inPorts.map(x => ({ portId: x }));
+    let outArray: Array<Object> = step.outPorts.map(x => ({ portId: x }));
     this.paletteTest.push({
-      text: typename,
-      color: background,
-      category: typename,
-      properties: properties,
-      description: description,
+      text: step.name,
+      color: "lightblue",
+      category: step.name,
+      properties: step.properties,
+      description: step.description,
       inArray: inArray,
       outArray: outArray
     });
@@ -406,6 +410,22 @@ export class DiagramEditorComponent implements OnInit {
       );
     return panel;
   }
+
+  makeTriggerPort() {
+
+    const panel = this.$(
+         go.Panel,
+         "Vertical",
+         this.makeSubBinding("itemArray", "Triggers"),
+         {
+           alignment: go.Spot.Bottom,
+           alignmentFocus: new go.Spot(0.5, 1, 0, 8),
+         },{
+         itemTemplate: this.makePort(false)
+         }
+       );
+     return panel;
+   }
 
   makeSubBinding(targetname, sourcename, conversion?) {
     let bind = new go.Binding(targetname, "properties");
