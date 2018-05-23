@@ -415,7 +415,7 @@ export class DiagramEditorComponent implements OnInit {
 
     const panel = this.$(
          go.Panel,
-         "Vertical",
+         "Horizontal",
          this.makeSubBinding("itemArray", "Triggers"),
          {
            alignment: go.Spot.Bottom,

@@ -57,11 +57,13 @@
         </mat-card-header>
 
         <mat-card-content>
-          <form class="example-form">
+          <form>
             <mat-form-field>
-              <input #digit matInput placeholder="Trigger" required>
+              <mat-select #triggerSelect placeholder="Trigger" >
+                <mat-option *ngFor="let trigger of triggerSteps()" [value]="trigger">{{trigger}}</mat-option>
+              </mat-select>
             </mat-form-field>
-            <button (click)="addTriggerPort(digit.value)" mat-button>
+            <button (click)="addTriggerPort(triggerSelect.value)" mat-button>
               <mat-icon>add</mat-icon>
             </button>
           </form>
@@ -75,6 +77,39 @@
         </mat-card-content>
 
       </mat-card>
+
+      <mat-card *ngIf="node && data.properties.PromptChanges">
+
+          <mat-card-header>
+            <mat-card-title>Prompt Changes</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <form>
+              <mat-form-field>
+                <mat-select #PromptChangesStepSelect placeholder="Step" >
+                  <mat-option *ngFor="let PromptChange of triggerSteps()" [value]="PromptChange">{{PromptChange}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                <mat-select #PromptChangesPromptSelect placeholder="Prompt" >
+                    <mat-option *ngFor="let prompt of mockPrompts" [value]="prompt">{{prompt}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <button (click)="addPromptChanges(PromptChangesStepSelect.value, PromptChangesPromptSelect.value )" mat-button>
+                <mat-icon>add</mat-icon>
+              </button>
+            </form>
+            <mat-list>
+              <mat-list-item *ngFor="let PromptChange of data.properties.PromptChanges; index as i">{{PromptChange.stepId}} - {{PromptChange.prompt}}
+                <button (click)="removePromptChanges(i)" mat-button>
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+
+        </mat-card>
 
 
 

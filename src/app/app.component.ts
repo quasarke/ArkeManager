@@ -1,3 +1,5 @@
+
+import {Subscription} from 'rxjs';
 import {DomSanitizer} from '@angular/platform-browser';
 
 import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
@@ -12,6 +14,8 @@ import {
 import * as go from "gojs";
 import { FormGroup } from "@angular/forms";
 import { DiagramEditorComponent } from "./diagram-editor/diagram-editor.component";
+import { debounceTime } from 'rxjs/operators';
+import { mockPrompts } from './mock-data/mockprompts';
 
 @Component({
   selector: "app-root",
@@ -49,19 +53,25 @@ export class AppComponent implements OnInit {
   data: any;
   node: go.Node;
 
+  mockPrompts: Array<string> = ["connected", "disconnected", "getting closer", "stuff is happening"];
+
+
+  private subscriptions: Array<Subscription> = [];
+
   constructor(private formService: DynamicFormService, private sanitizer: DomSanitizer) {
     this.model.linkFromPortIdProperty = "fromPort";
     this.model.linkToPortIdProperty = "toPort";
     this.model.copyNodeDataFunction = function(data, model) {
       let newdata: any = JSON.parse(JSON.stringify(data));
       return newdata;
-
     }
 
   }
 
   ngOnInit(): void {
     this.formGroup = this.formService.createFormGroup(this.formModel);
+    this.subscriptions = [
+    ];
   }
 
   showDetails(node: go.Node | null) {
@@ -76,7 +86,7 @@ export class AppComponent implements OnInit {
     } else {
       this.data = null;
     }
-    console.log(this.model.nodeDataArray.filter( a => a["properties"]["Direction"] === "INCOMING" ).map( a => a["key"] + "-" + a["category"]));
+
   }
 
   buildFormModel() {
@@ -170,8 +180,11 @@ export class AppComponent implements OnInit {
     this.generateDownloadJsonUri();
   }
 
-  get triggerSteps() {
-   return [];
+triggerSteps() {
+  if (this.node.data["properties"]["Direction"] !== "BOTH" || this.node.data["properties"]["Direction"] !== "") {
+   return this.model.nodeDataArray.filter( a => a["properties"]["Direction"] === (this.node.data["properties"]["Direction"] === "INCOMING" ? "OUTGOING" : "INCOMING") ).map( a =>  a["category"] + a["key"] );
+  }
+  return [];
   }
   // Add a port to the specified side of the selected nodes.
   addInputPort(name) {
@@ -210,6 +223,25 @@ export class AppComponent implements OnInit {
     }
   }
 
+  addPromptChanges(name, prompt ) {
+    if(this.node) {
+    // this.data.outArray.push({ portId: "test"});
+    this.model.startTransaction("addPromptChanges");
+      // get the Array of port data to be modified
+      if (this.node.data["properties"]["PromptChanges"]) {
+        // create a new port data object
+        const newportdata = {
+          stepId: name,
+          prompt: prompt
+        };
+        // and add it to the Array of port data
+
+        this.model.insertArrayItem(this.node.data["properties"]["PromptChanges"], -1, newportdata);
+      }
+    this.model.commitTransaction("addPromptChanges");
+    }
+  }
+
   removeInputPort(idx) {
     this.model.removeArrayItem(this.node.data["properties"]["Options"], idx);
   }
@@ -218,11 +250,19 @@ export class AppComponent implements OnInit {
     this.model.removeArrayItem(this.node.data["properties"]["Triggers"], idx);
   }
 
+  removePromptChanges(idx) {
+    this.model.removeArrayItem(this.node.data["properties"]["PromptChanges"], idx);
+  }
+
   generateDownloadJsonUri() {
     let theJSON = this.model.toJson();
     let uri = this.sanitizer.bypassSecurityTrustUrl("data:text/json;charset=UTF-8," + encodeURIComponent(theJSON));
     this.diagramEditor.downloadJsonHref = uri;
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.map((s: Subscription) => {
+      s.unsubscribe();
+    });
+  }
 }

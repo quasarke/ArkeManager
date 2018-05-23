@@ -77,10 +77,11 @@ export const mockSTeps: Array<Step> = [
     inPorts: ["IN"],
     outPorts: [],
     properties: {
+      Direction: "",
       WaitPrompt: "",
       HoldMusic: "",
-      PromptChanges: [{ stepId: "", prompt: "" }],
-      Triggers: [{ portId: "trigger", step: "" }]
+      PromptChanges: [],
+      Triggers: []
     },
     description: "Places a line on hold for processing steps on another line"
   })
