@@ -1,7 +1,7 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { environment } from '../../../environments/environment';
-import { storeFreeze } from 'ngrx-store-freeze';
+
 import * as go from "gojs";
 import { diagramReducer } from './diagram/diagram.reducer';
 import { paletteReducer } from './palette/palette.reducer';
@@ -20,4 +20,4 @@ export const appReducer: ActionReducerMap<appState> = {
 
 }
 
-export const metaReducers: MetaReducer<appState>[] = !environment.production ? [storeFreeze] : [];
+export const metaReducers: MetaReducer<appState>[] = !environment.production ? [] : [];

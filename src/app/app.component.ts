@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   formModel: DynamicFormControlModel[] = [];
   formGroup: FormGroup;
 
-  @ViewChild(DiagramEditorComponent) diagramEditor;
+  @ViewChild(DiagramEditorComponent, { static: true }) diagramEditor;
   model = new go.GraphLinksModel(
     [
       {

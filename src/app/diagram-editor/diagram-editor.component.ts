@@ -24,9 +24,9 @@ export class DiagramEditorComponent implements OnInit {
 
   $ = go.GraphObject.make;
 
-  @ViewChild("diagramDiv") private diagramRef: ElementRef;
+  @ViewChild("diagramDiv", { static: true }) private diagramRef: ElementRef;
 
-  @ViewChild("paletteDiv") private paletteRef: ElementRef;
+  @ViewChild("paletteDiv", { static: true }) private paletteRef: ElementRef;
 
   @Input()
   get model(): go.Model {
