@@ -1,0 +1,2 @@
+<mat-icon *ngIf="!icon.includes('svg_')" [inline]="inline">{{icon}}</mat-icon>
+<mat-icon *ngIf="icon.includes('svg_')" [svgIcon]="icon.substr(4)" [inline]="inline"></mat-icon>
